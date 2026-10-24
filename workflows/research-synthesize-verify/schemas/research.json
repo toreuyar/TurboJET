@@ -1,0 +1,23 @@
+{
+  "description": "Research stage. Verdict keys exactly match workflows/research-synthesize-verify/workflow.smg.json.",
+  "type": "object",
+  "required": ["verdict", "summary", "evidence"],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["found", "missing"] },
+    "summary": { "type": "string" },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "excerpt"],
+        "properties": {
+          "path": { "type": "string", "description": "Relative path under inputs/. Never a URL or absolute path." },
+          "excerpt": { "type": "string", "description": "Exact short text copied from that file." },
+          "claim": { "type": "string" }
+        }
+      }
+    },
+    "gaps": { "type": "array", "items": { "type": "string" } },
+    "content": { "type": "string", "description": "Markdown evidence log mirrored into output.md." }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "description": "Clarify stage. Verdict keys exactly match workflows/clarify-produce-review/workflow.smg.json.",
+  "type": "object",
+  "required": ["verdict", "summary", "clarification"],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["success"] },
+    "summary": { "type": "string" },
+    "clarification": { "type": "string", "description": "What the user asked for, including answers received through the question tool." },
+    "output_contract": { "type": "string", "description": "Exact deliverable the produce stage must create." },
+    "unknowns": { "type": "array", "items": { "type": "string" } },
+    "content": { "type": "string", "description": "Markdown clarification mirrored into output.md." }
+  }
+}

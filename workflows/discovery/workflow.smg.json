@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "name": "TurboJet Discovery",
+  "maturity": "supported",
+  "description": "Repository-free Discovery. Produces an evidence-linked requirements packet and ends at packet approval; no Planning, Engineering, Delivery, Git, forge, SSH or shell capability is part of this profile.",
+  "entry": "discovery",
+  "exit": "discovery-gate",
+  "limits": {
+    "maxIterations": 3,
+    "maxSteps": 20,
+    "maxDepth": 5
+  },
+  "flow-order": [
+    "discovery",
+    "discovery-gate"
+  ],
+  "flows": {
+    "discovery": {
+      "type": "flow",
+      "entry": "intake",
+      "exit": "packet",
+      "merge_strategy": "none",
+      "stages": {
+        "intake": {
+          "agent": "intake",
+          "interactive": true,
+          "routes": {
+            "success": "evaluate"
+          }
+        },
+        "evaluate": {
+          "agent": "evaluate",
+          "interactive": true,
+          "routes": {
+            "proceed": "packet",
+            "reject": "intake"
+          }
+        },
+        "packet": {
+          "agent": "packet",
+          "interactive": false,
+          "routes": {
+            "generated": "_next-flow"
+          }
+        }
+      }
+    },
+    "discovery-gate": {
+      "type": "gate",
+      "routes": {
+        "approved": "_next-flow",
+        "rejected": "_rework"
+      },
+      "stages": {}
+    }
+  },
+  "catalog": {
+    "id": "discovery",
+    "label": "Discovery",
+    "description": "Repository-free Discovery to an evidence-linked requirements packet"
+  },
+  "capabilities": {
+    "schema_version": 1,
+    "workspace": {
+      "kind": "none"
+    },
+    "gates": {
+      "discovery-gate": "packet"
+    },
+    "requirements_packet": {
+      "produce_flow": "discovery",
+      "producer_stage": "packet",
+      "binding_gate": "discovery-gate"
+    }
+  }
+}

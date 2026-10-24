@@ -1,0 +1,29 @@
+{
+  "status": "template-not-frozen",
+  "note": "Fill only when the owner freezes a real candidate. Nulls are intentional; do not substitute planned or guessed values.",
+  "protocol_version": null,
+  "candidate_git_revision": null,
+  "candidate_build_hash": null,
+  "model_provider": null,
+  "model_id": null,
+  "model_version": null,
+  "execution_bundle_hash": null,
+  "workflow_hash": null,
+  "prompt_hashes": null,
+  "schema_hashes": null,
+  "tool_policy": {
+    "discovery_supported_profile": "repository-free; no shell, edit, git, forge, SSH or Zulip",
+    "verified_by": null
+  },
+  "baseline_prompt_hash": null,
+  "fixed_thresholds": {
+    "actionability_mean_min": 3.5,
+    "unsupported_claims_strictly_lower_than_baseline": true,
+    "critical_contradiction_resolved_without_owner_decision": false,
+    "reviewer_clarification_median_reduction_percent": 20,
+    "severe_incident_allowed": false
+  },
+  "frozen_at": null,
+  "frozen_by": null,
+  "changes_after_freeze": []
+}

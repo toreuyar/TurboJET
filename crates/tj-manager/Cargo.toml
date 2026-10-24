@@ -1,0 +1,55 @@
+[package]
+name = "tj-manager"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[features]
+# SDLC-specific domain behavior tests. Default engine/lifecycle tests use
+# neutral synthetic flows; this feature enables the shipped-name behavior test
+# that must not shape the default asset-free suite.
+example-workflows = []
+# Isolated legacy v1 adapter compatibility tests. These intentionally contain
+# historical frozen business names and are never built by the default suite.
+legacy-compat-tests = []
+
+[[test]]
+name = "legacy_v1_adapter"
+path = "tests/legacy_v1_adapter.rs"
+required-features = ["legacy-compat-tests"]
+
+[dependencies]
+sha2 = { workspace = true }
+tj-config = { path = "../tj-config" }
+tj-db = { path = "../tj-db" }
+tj-packet = { path = "../tj-packet" }
+tj-plan = { path = "../tj-plan" }
+tj-stage = { path = "../tj-stage" }
+tj-flow = { path = "../tj-flow" }
+tj-chat = { path = "../tj-chat" }
+tj-chat-zulip = { path = "../tj-chat-zulip" }
+tj-agent = { path = "../tj-agent" }
+tj-provider = { path = "../tj-provider" }
+tj-git = { path = "../tj-git" }
+tj-secrets = { path = "../tj-secrets" }
+tj-tools = { path = "../tj-tools" }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+tokio = { workspace = true }
+reqwest = { version = "0.12", features = ["json"] }
+base64 = "0.22"
+aes-gcm = "0.10"
+hex = "0.4"
+dirs = "6"
+dashmap = "6"
+futures = { workspace = true }
+async-trait = "0.1"
+
+[dev-dependencies]
+tempfile = "3"
+tj-test-support = { path = "../tj-test-support" }

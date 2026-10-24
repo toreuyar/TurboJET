@@ -1,0 +1,48 @@
+[package]
+name = "tj-config"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[features]
+# Distribution/example contract tests. They may read shipped config/ or
+# examples/ assets and are intentionally excluded from the default engine
+# suite. Run with `bash scripts/checks.sh examples`.
+example-workflows = []
+
+[[test]]
+name = "agent_schemas_test"
+path = "tests/agent_schemas_test.rs"
+required-features = ["example-workflows"]
+
+[[test]]
+name = "config_lint"
+path = "tests/config_lint.rs"
+required-features = ["example-workflows"]
+
+[[test]]
+name = "generic_workflows_test"
+path = "tests/generic_workflows_test.rs"
+required-features = ["example-workflows"]
+
+[[test]]
+name = "smg_route_schemas_test"
+path = "tests/smg_route_schemas_test.rs"
+required-features = ["example-workflows"]
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+shellexpand = "3"
+sha2 = { workspace = true }
+hex = { workspace = true }
+
+[dev-dependencies]
+uuid = { workspace = true }
+tempfile = "3"
+tj-test-support = { path = "../tj-test-support" }

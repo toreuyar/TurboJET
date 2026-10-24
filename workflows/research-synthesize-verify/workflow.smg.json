@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "name": "Research, Synthesize and Verify",
+  "maturity": "experimental",
+  "description": "Repository-free Research -> Synthesize -> Verify over supplied local input documents only. Verification loops back to research or synthesis within the graph's fixed limits, and the runtime re-checks every citation against the actual input files before the run can complete. No web, Git, forge, SSH or shell access.",
+  "entry": "research-synthesize-verify",
+  "exit": "research-synthesize-verify",
+  "limits": {
+    "maxIterations": 3,
+    "maxSteps": 10,
+    "maxDepth": 4
+  },
+  "flow-order": [
+    "research-synthesize-verify"
+  ],
+  "flows": {
+    "research-synthesize-verify": {
+      "type": "flow",
+      "entry": "research",
+      "exit": "verify",
+      "merge_strategy": "none",
+      "stages": {
+        "research": {
+          "agent": "research",
+          "interactive": false,
+          "routes": {
+            "found": "synthesize",
+            "missing": "research"
+          }
+        },
+        "synthesize": {
+          "agent": "synthesize",
+          "interactive": false,
+          "routes": {
+            "drafted": "verify",
+            "missing-evidence": "research"
+          }
+        },
+        "verify": {
+          "agent": "verify",
+          "interactive": false,
+          "routes": {
+            "verified": "_exit",
+            "revise": "synthesize",
+            "missing-evidence": "research"
+          }
+        }
+      }
+    }
+  },
+  "catalog": {
+    "id": "research-synthesize-verify",
+    "label": "Research, Synthesize and Verify"
+  },
+  "capabilities": {
+    "schema_version": 1,
+    "workspace": {
+      "kind": "none"
+    },
+    "inputs": {
+      "copy_project_inputs_to": "inputs"
+    },
+    "verification": [
+      {
+        "kind": "local_citations",
+        "flow": "research-synthesize-verify",
+        "producer_stage": "synthesize",
+        "inputs_dir": "inputs"
+      }
+    ]
+  }
+}

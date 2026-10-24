@@ -1,0 +1,23 @@
+{
+  "status": "blocked",
+  "reason": "External pilot validation has not started. No real team has used an exported plan for real work. This manifest is intentionally unfilled; scripted local tests are not pilot evidence.",
+  "protocol_version": 1,
+  "frozen_before_feedback": false,
+  "build": {
+    "version": null,
+    "source_revision": null,
+    "package_sha256": null
+  },
+  "scenario": {
+    "path": "tests/qa/scenarios/planning-pilot.md",
+    "local_evidence_only": true
+  },
+  "participants": {
+    "target_teams": 2,
+    "recruited": 0,
+    "completed": 0,
+    "consent_records": []
+  },
+  "exports": [],
+  "owner_decision": null
+}

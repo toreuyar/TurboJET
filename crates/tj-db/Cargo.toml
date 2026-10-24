@@ -1,0 +1,25 @@
+[package]
+name = "tj-db"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+rusqlite = { version = "0.34", features = ["bundled"] }
+tracing = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+libc = "0.2"
+shellexpand = "3"
+tj-packet = { path = "../tj-packet" }
+tj-plan = { path = "../tj-plan" }
+tj-delivery = { path = "../tj-delivery" }
+
+[dev-dependencies]
+tempfile = "3"

@@ -1,0 +1,50 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/tj-chat",
+    "crates/tj-chat-zulip",
+    "crates/tj-config",
+    "crates/tj-db",
+    "crates/tj-git",
+    "crates/tj-provider",
+    "crates/tj-runner",
+    "crates/tj-stage",
+    "crates/tj-flow",
+    "crates/tj-manager",
+    "crates/tj-agent",
+    "crates/tj-api",
+    "crates/tj-logs",
+    "crates/tj-tools",
+    "crates/tj-secrets",
+    "crates/tj-packet",
+    "crates/tj-plan",
+    "crates/tj-ops",
+    "crates/tj-delivery",
+    "crates/tj-test-support",
+]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.98"
+license = "MIT"
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+anyhow = "1"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+tracing-appender = "0.2"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+sha2 = "0.10"
+hex = "0.4"
+futures = "0.3"
+async-stream = "0.3"
+
+# ADK (Agent Development Kit) crates
+adk-core = { git = "https://github.com/zavora-ai/adk-rust", rev = "1ed3c1a6e46b506b75a445bad86a3bd82171e7d9" }
+adk-model = { git = "https://github.com/zavora-ai/adk-rust", rev = "1ed3c1a6e46b506b75a445bad86a3bd82171e7d9" }

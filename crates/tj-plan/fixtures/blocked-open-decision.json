@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "title": "Online booking cancellation — blocked task plan",
+  "summary": "The core cancellation path is traced; notification work stays blocked until the owner chooses a channel.",
+  "tasks": [
+    {
+      "id": "T-1",
+      "title": "Cancellation eligibility and preview contract",
+      "objective": "Expose deterministic eligibility and refund preview before cancellation.",
+      "requirement_refs": ["REQ-1", "REQ-2"],
+      "dependencies": [],
+      "acceptance_criteria": ["Eligible bookings show the exact refund preview."],
+      "components": ["booking-domain"],
+      "estimate": {"size": "m", "uncertainty": "medium"},
+      "risks": [],
+      "verification": ["Contract tests cover eligible and ineligible bookings."]
+    },
+    {
+      "id": "T-2",
+      "title": "Send cancellation confirmation",
+      "objective": "Notify the traveller after cancellation commits.",
+      "requirement_refs": ["REQ-3"],
+      "decision_refs": ["DEC-2"],
+      "dependencies": ["T-1"],
+      "acceptance_criteria": ["The chosen channel receives exactly one confirmation."],
+      "components": ["notification-worker"],
+      "estimate": {"size": "s", "uncertainty": "high"},
+      "risks": [],
+      "verification": ["The worker test asserts one message per accepted cancellation."]
+    }
+  ],
+  "scope_expansion_requests": [
+    {
+      "id": "EXP-1",
+      "description": "Support partial refunds.",
+      "rationale": "The approved packet explicitly excludes partial refunds, so this needs a new packet revision and approval.",
+      "requested_by": "planning-review"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+[package]
+name = "tj-flow"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+tj-config = { path = "../tj-config" }
+tj-db = { path = "../tj-db" }
+tj-stage = { path = "../tj-stage" }
+tj-chat = { path = "../tj-chat" }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+tokio = { workspace = true }
+
+[dev-dependencies]
+tj-test-support = { path = "../tj-test-support" }

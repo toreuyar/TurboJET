@@ -1,0 +1,21 @@
+[package]
+name = "tj-agent"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+tj-config = { path = "../tj-config" }
+tj-provider = { path = "../tj-provider" }
+tj-chat = { path = "../tj-chat" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+futures = { workspace = true }
+async-stream = { workspace = true }
+async-trait = "0.1"
+chrono = { workspace = true }

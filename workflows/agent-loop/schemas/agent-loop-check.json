@@ -1,0 +1,13 @@
+{
+  "description": "Agent-loop check stage. Verdict keys exactly match workflows/agent-loop/workflow.smg.json.",
+  "type": "object",
+  "required": ["verdict", "summary", "feedback"],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["pass", "revise", "needs-input"] },
+    "summary": { "type": "string" },
+    "feedback": { "type": "array", "items": { "type": "string" }, "description": "Concrete corrections; revise routes back to act with this list." },
+    "criteria_results": { "type": "array", "items": { "type": "string" }, "description": "One pass/fail line per accepted criterion." },
+    "unknowns": { "type": "array", "items": { "type": "string" } },
+    "content": { "type": "string", "description": "Markdown check report mirrored into output.md." }
+  }
+}

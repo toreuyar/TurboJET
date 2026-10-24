@@ -1,0 +1,16 @@
+[package]
+name = "tj-test-support"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish = false
+
+[features]
+default = []
+scripted-model = ["dep:tokio"]
+
+[dependencies]
+serde_json = { workspace = true }
+tempfile = "3"
+tokio = { workspace = true, optional = true }

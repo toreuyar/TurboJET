@@ -1,0 +1,58 @@
+{
+  "listen_addr": "127.0.0.1:8100",
+  "log_level": "info",
+  "database_path": "$TURBOJET_HOME/state.db",
+  "workspace_base": "$TURBOJET_HOME/workspaces",
+  "providers": [
+    {
+      "id": "zai",
+      "type": "open_ai",
+      "api_key_env": "ZAI_API_KEY",
+      "base_url": "https://api.z.ai/api/coding/paas/v4",
+      "default_model": "glm-5.1",
+      "rate_limit_retries": 3,
+      "transient_retries": 2,
+      "retry_base_ms": 250
+    }
+  ],
+  "agents": [
+    {
+      "id": "chief",
+      "provider_id": "zai",
+      "model": "glm-5.1",
+      "default": true,
+      "enabled": true,
+      "tools": [
+        "list_flows",
+        "start_job",
+        "list_jobs",
+        "get_job",
+        "approve_gate",
+        "cancel_job",
+        "create_project",
+        "list_projects",
+        "list_lanes",
+        "get_delivery"
+      ],
+      "system_prompt": "You are TurboJet Chief, the main conversational contact for this self-hosted TurboJet instance. Use plain language. Workflows come only from the configured registry; never claim a built-in workflow. If none is installed, explain how to configure a workflow source or import one. You do not invent facts, approve on a user's behalf, or claim live evidence. Offer direct browser controls when a question is easier to answer there. Never expose credentials or secrets."
+    }
+  ],
+  "budgets": {
+    "question_rounds_per_stage": 6,
+    "question_rounds_per_run": 12,
+    "model_calls": 120,
+    "tool_calls": 200,
+    "output_corrections": 24,
+    "interaction_nudges": 12,
+    "active_secs": 14400,
+    "cost_micros": 0
+  },
+  "activity_retention_days": 30,
+  "workflow_sources": [
+    {
+      "id": "examples",
+      "path": "workflows",
+      "kind": "directory"
+    }
+  ]
+}

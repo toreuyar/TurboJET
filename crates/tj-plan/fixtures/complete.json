@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "title": "Online booking cancellation — task plan",
+  "summary": "Four independently verifiable tasks deliver the approved cancellation and refund-preview requirements in dependency order.",
+  "tasks": [
+    {
+      "id": "T-1",
+      "title": "Cancellation eligibility and preview contract",
+      "objective": "Expose a deterministic eligibility check and refund preview for a booking before any cancel action is offered.",
+      "requirement_refs": ["REQ-1", "REQ-2"],
+      "decision_refs": ["DEC-1"],
+      "dependencies": [],
+      "acceptance_criteria": [
+        "An eligible booking produces the exact refund amount and currency used by the confirmation step.",
+        "A non-cancellable booking returns a user-visible reason and no cancel action."
+      ],
+      "components": ["booking-domain", "cancellation-api"],
+      "estimate": {"size": "m", "uncertainty": "medium", "rationale": "Provider eligibility rules already exist but the preview contract is new."},
+      "risks": [
+        {"id": "R-1", "statement": "Eligibility rules differ by booking source.", "severity": "major", "mitigation": "Use the existing policy resolver and add fixtures for each source."}
+      ],
+      "verification": [
+        "Contract tests cover eligible, ineligible and missing-policy bookings.",
+        "Preview amount equals the amount recorded by the confirmed cancellation."
+      ]
+    },
+    {
+      "id": "T-2",
+      "title": "Atomic cancellation transaction",
+      "objective": "Persist exactly one cancellation and the displayed refund amount, rejecting duplicate submissions.",
+      "requirement_refs": ["REQ-1", "REQ-2"],
+      "decision_refs": ["DEC-1"],
+      "dependencies": ["T-1"],
+      "acceptance_criteria": [
+        "Two concurrent cancellation requests produce one accepted cancellation and one idempotent replay.",
+        "The stored refund amount matches the preview the traveller confirmed."
+      ],
+      "components": ["cancellation-api", "booking-database"],
+      "estimate": {"size": "m", "uncertainty": "low", "rationale": "Follows the existing transaction and idempotency patterns."},
+      "risks": [
+        {"id": "R-2", "statement": "A payment-provider timeout can leave the cancellation accepted before the refund is confirmed.", "severity": "major", "mitigation": "Record a pending refund state and reconcile provider callbacks idempotently."}
+      ],
+      "verification": [
+        "An integration test injects a concurrent duplicate request.",
+        "The booking row and cancellation audit record agree on amount and currency."
+      ]
+    },
+    {
+      "id": "T-3",
+      "title": "Cancellation notification after commit",
+      "objective": "Queue the confirmation email only after the cancellation transaction commits, without rolling back an accepted cancellation when email fails.",
+      "requirement_refs": ["REQ-3"],
+      "dependencies": ["T-2"],
+      "acceptance_criteria": [
+        "The email job is enqueued exactly once after commit.",
+        "A failed email job leaves the cancellation accepted and records a retryable notification failure."
+      ],
+      "components": ["notification-worker", "booking-database"],
+      "estimate": {"size": "s", "uncertainty": "low"},
+      "risks": [],
+      "verification": [
+        "A test replaces the mail transport with a failing stub and asserts the cancellation remains accepted.",
+        "Duplicate transaction replay enqueues no second email."
+      ]
+    },
+    {
+      "id": "T-4",
+      "title": "End-to-end acceptance harness",
+      "objective": "Provide one reproducible harness that exercises the happy, ineligible and duplicate-cancellation paths for reviewers.",
+      "enabling_rationale": "The approved requirements need evidence across the API, database and notification boundary; this harness is enabling work, not new product scope.",
+      "dependencies": ["T-2", "T-3"],
+      "acceptance_criteria": [
+        "The harness runs against a disposable database and reports each requirement criterion with a pass or a concrete failure.",
+        "The documented command is deterministic and needs no live provider or forge."
+      ],
+      "components": ["test-harness"],
+      "estimate": {"size": "s", "uncertainty": "medium"},
+      "risks": [
+        {"id": "R-3", "statement": "The harness could accidentally depend on live infrastructure.", "severity": "minor", "mitigation": "Fail the build if a forbidden network or credential path is configured."}
+      ],
+      "verification": [
+        "The harness passes from a clean checkout without a live provider.",
+        "A deliberately failing expectation produces a non-zero exit and names the criterion."
+      ]
+    }
+  ],
+  "scope_expansion_requests": []
+}

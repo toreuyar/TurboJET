@@ -1,0 +1,20 @@
+{
+  "description": "Requirements packet stage final artifact. The verdict matches workflows/discovery/workflow.smg.json route { generated: _next-flow }. The packet object is validated against the requirements packet schema v1 by the runtime before it becomes durable.",
+  "type": "object",
+  "required": ["verdict", "summary", "packet"],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["generated"],
+      "description": "The only route for the packet generator stage."
+    },
+    "summary": {
+      "type": "string",
+      "description": "One-line summary of the packet and its completeness."
+    },
+    "packet": {
+      "type": "object",
+      "description": "Requirements packet schema v1: title, problem, users, goals, non_goals, requirements, nfrs, constraints, evidence, assumptions, contradictions, risks, decisions, unknowns and sources."
+    }
+  }
+}

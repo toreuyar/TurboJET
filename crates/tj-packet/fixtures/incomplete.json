@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "title": "Booking cancellation for solo travellers (draft)",
+  "problem": {
+    "statement": "Solo travellers may need to cancel bookings without contacting support.",
+    "source_refs": ["SRC-1"]
+  },
+  "users": [
+    {
+      "id": "USR-1",
+      "user": "Solo traveller",
+      "need": "Cancel a booking online.",
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "goals": [
+    {
+      "id": "GOAL-1",
+      "statement": "Provide an online cancellation path.",
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "non_goals": [],
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "title": "Online cancellation",
+      "statement": "The booking page offers a cancel action.",
+      "kind": "functional",
+      "priority": "must",
+      "status": "confirmed",
+      "acceptance_criteria": ["The cancel action is visible for an eligible booking."],
+      "source_refs": ["SRC-1"]
+    },
+    {
+      "id": "REQ-2",
+      "title": "Refund timing",
+      "statement": "The traveller is told when the refund will arrive.",
+      "kind": "functional",
+      "priority": "should",
+      "status": "proposed",
+      "acceptance_criteria": ["The expected refund window is shown."],
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "nfrs": [],
+  "constraints": [],
+  "evidence": [
+    {
+      "id": "EVD-1",
+      "claim": "The original request did not specify refund timing.",
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "ASM-1",
+      "statement": "Existing booking data contains the cancellation policy.",
+      "owner": "booking-domain",
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "contradictions": [],
+  "risks": [
+    {
+      "id": "RISK-1",
+      "statement": "Refund timing may depend on a provider that the customer does not see.",
+      "severity": "major",
+      "likelihood": "medium",
+      "mitigation": "Show a range and mark provider timing as an unresolved dependency until confirmed."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-1",
+      "question": "Should the customer see a precise refund date or a range?",
+      "owner": "product-owner",
+      "status": "open",
+      "decision": null,
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "UNK-1",
+      "question": "Which refund window applies to flexible and non-flexible fares?",
+      "impact": "The acceptance criterion for refund timing cannot be finalised.",
+      "owner": "product-owner",
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "sources": [
+    {
+      "id": "SRC-1",
+      "kind": "stage_artifact",
+      "reference": "artifact:flow-a:stage-a",
+      "excerpt": "The customer asked for online cancellation but did not describe refund policy details."
+    }
+  ]
+}

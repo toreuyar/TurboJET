@@ -1,0 +1,58 @@
+target/
+node_modules/
+*.db
+*.db-shm
+*.db-wal
+.env
+.turbojet/
+*.log
+*.tsbuildinfo
+check-results/
+/config/local/
+/config/*.local.json
+webui/dist/
+webui/playwright-report/
+webui/test-results/
+
+# Local-only publication archive and generated OpenCode runtime/tool state.
+# Keep local copies; never publish credentials or machine-specific artifacts.
+/.local-publication-archive/
+/config/**/.config/
+/config/**/.local/
+
+# Local operator state; not part of the distributable tree.
+/.factory/
+/.isolator-staging/
+/.opencode/
+/opencode.json
+/opencode.json.openchamber.backup
+
+# Personal workspace, AI-tool configuration, and internal planning/session
+# records. Local only; never publish.
+/.zettelkasten/
+/.claude/
+/.mcp.json
+/CLAUDE.md
+/OPENCODE_CONFIG.md
+/PROJECT_PLAN.md
+/TASKS.md
+/DISCOVERY_UX_TEST_REPORT.md
+/UX_IMPROVEMENT_RECOMMENDATIONS.md
+/webui.md
+/webui-v2.html
+/webui-v3.html
+/webui-v4.html
+/webui-architecture.html
+/webui-vs-turbojet.md
+/docs/INTEGRATION_COMPLETION.md
+/docs/superpowers/
+/docs/integration-*.md
+/docs/workflow-decoupling-*.md
+/docs/current-state-*.md
+/docs/project-assessment-*.md
+/docs/product-vision-2026-*.md
+/docs/bundle-budget-followup.md
+/docs/autonomous-sdlc-opencode.md
+/docs/claude-code-session-management.md
+/specs/
+/scripts/publish-previews.sh

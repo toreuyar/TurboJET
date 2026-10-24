@@ -1,0 +1,14 @@
+{
+  "description": "Agent-loop plan stage. Verdict keys exactly match workflows/agent-loop/workflow.smg.json.",
+  "type": "object",
+  "required": ["verdict", "summary", "approach", "criteria"],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["success", "needs-input"] },
+    "summary": { "type": "string" },
+    "approach": { "type": "array", "items": { "type": "string" }, "description": "Ordered approach handed to the act stage." },
+    "criteria": { "type": "array", "items": { "type": "string" }, "description": "Checkable acceptance criteria handed to act and check." },
+    "unknowns": { "type": "array", "items": { "type": "string" } },
+    "needs_input": { "type": "array", "items": { "type": "string" }, "description": "Questions that genuinely need the user; never invent answers." },
+    "content": { "type": "string", "description": "Markdown plan mirrored into output.md." }
+  }
+}

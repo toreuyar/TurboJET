@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "title": "Booking cancellation with conflicting refund rules",
+  "problem": {
+    "statement": "Travelers need online cancellation, but the requested refund behaviour conflicts with the stated policy.",
+    "source_refs": ["SRC-1", "SRC-2"]
+  },
+  "users": [
+    {
+      "id": "USR-1",
+      "user": "Solo traveller",
+      "need": "Cancel online with a predictable refund.",
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "goals": [
+    {
+      "id": "GOAL-1",
+      "statement": "Support online cancellation.",
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "non_goals": [],
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "title": "Online cancellation",
+      "statement": "The booking page offers a cancel action.",
+      "kind": "functional",
+      "priority": "must",
+      "status": "confirmed",
+      "acceptance_criteria": ["The cancel action is visible for an eligible booking."],
+      "source_refs": ["SRC-1"]
+    },
+    {
+      "id": "REQ-2",
+      "title": "Full refund",
+      "statement": "Every cancellation returns the full amount immediately.",
+      "kind": "functional",
+      "priority": "must",
+      "status": "confirmed",
+      "acceptance_criteria": ["The full amount is refunded immediately for every booking."],
+      "source_refs": ["SRC-2"]
+    }
+  ],
+  "nfrs": [],
+  "constraints": [
+    {
+      "id": "CON-1",
+      "statement": "The current policy forbids refunds for cancellations within 48 hours.",
+      "source_refs": ["SRC-2"]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "EVD-1",
+      "claim": "The customer asked for an unconditional full refund.",
+      "source_refs": ["SRC-2"]
+    },
+    {
+      "id": "EVD-2",
+      "claim": "The existing policy declines refunds inside 48 hours.",
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "assumptions": [],
+  "contradictions": [
+    {
+      "id": "CTR-1",
+      "statement": "REQ-2 promises an unconditional full refund while CON-1 forbids refunds within 48 hours.",
+      "owner": "product-owner",
+      "source_refs": ["SRC-1", "SRC-2"]
+    }
+  ],
+  "risks": [
+    {
+      "id": "RISK-1",
+      "statement": "Shipping without resolving the refund contradiction would break a published policy.",
+      "severity": "critical",
+      "likelihood": "high",
+      "mitigation": "Require an owner decision on the 48-hour exception before approval."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-1",
+      "question": "Does the owner override the 48-hour policy or accept the exception?",
+      "owner": "product-owner",
+      "status": "open",
+      "decision": null,
+      "source_refs": ["SRC-1", "SRC-2"]
+    }
+  ],
+  "unknowns": [],
+  "sources": [
+    {
+      "id": "SRC-1",
+      "kind": "stage_artifact",
+      "reference": "artifact:flow-a:stage-a",
+      "excerpt": "Existing policy: no refunds inside 48 hours."
+    },
+    {
+      "id": "SRC-2",
+      "kind": "question_answer",
+      "reference": "answer:q_example",
+      "excerpt": "Customer: every cancellation should get a full refund immediately."
+    }
+  ]
+}

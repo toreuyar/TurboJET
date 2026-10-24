@@ -1,0 +1,49 @@
+{
+  "name": "turbojet-webui",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=22 <23", "npm": ">=10 <11" },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "test": "vitest run",
+    "test:examples": "vitest run --config vitest.examples.config.ts",
+    "test:watch": "vitest",
+    "e2e": "npm run build && node scripts/check-browser.mjs && playwright test",
+    "e2e:headed": "npm run e2e -- --headed",
+    "e2e:live": "node scripts/check-live.mjs && npm run build && node scripts/check-browser.mjs && playwright test --config playwright.live.config.ts",
+    "e2e:backend": "npm run build && node scripts/check-browser.mjs && cargo build --manifest-path ../Cargo.toml -p tj-api && playwright test --config playwright.backend.config.ts"
+  },
+  "dependencies": {
+    "@dagrejs/dagre": "^3.1.1",
+    "@tanstack/react-query": "^5.59.0",
+    "@xyflow/react": "^12.11.6",
+    "dompurify": "^3.4.15",
+    "highlight.js": "^11.12.0",
+    "katex": "^0.18.7",
+    "mermaid": "^11.17.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "react-virtuoso": "^4.18.13",
+    "rehype-highlight": "^7.0.2",
+    "rehype-katex": "^7.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/react": "^16.0.1",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.2",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.9",
+    "vite-plugin-singlefile": "^2.0.2",
+    "vitest": "^2.1.3"
+  }
+}

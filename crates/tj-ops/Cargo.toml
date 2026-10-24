@@ -1,0 +1,25 @@
+[package]
+name = "tj-ops"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "tj-ops"
+path = "src/main.rs"
+
+[dependencies]
+tj-db = { path = "../tj-db" }
+rusqlite = { version = "0.34", features = ["bundled"] }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+aes-gcm = "0.10"
+base64 = "0.22"
+
+[dev-dependencies]
+tempfile = "3"

@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "name": "Generic Agent Loop",
+  "maturity": "experimental",
+  "description": "Repository-free plan -> act -> check -> result. A checker rejects or requests a bounded revision, which re-enters act with its feedback. No Git, forge, SSH, shell or shell-based test execution is available.",
+  "entry": "agent-loop",
+  "exit": "agent-loop",
+  "limits": {
+    "maxIterations": 3,
+    "maxSteps": 12,
+    "maxDepth": 4
+  },
+  "flow-order": [
+    "agent-loop"
+  ],
+  "flows": {
+    "agent-loop": {
+      "type": "flow",
+      "entry": "agent-plan",
+      "exit": "agent-result",
+      "merge_strategy": "none",
+      "stages": {
+        "agent-plan": {
+          "agent": "agent-plan",
+          "interactive": true,
+          "routes": {
+            "success": "agent-act",
+            "needs-input": "agent-result"
+          }
+        },
+        "agent-act": {
+          "agent": "agent-act",
+          "interactive": false,
+          "routes": {
+            "produced": "agent-check",
+            "needs-input": "agent-result"
+          }
+        },
+        "agent-check": {
+          "agent": "agent-check",
+          "interactive": false,
+          "routes": {
+            "pass": "agent-result",
+            "revise": "agent-act",
+            "needs-input": "agent-result"
+          }
+        },
+        "agent-result": {
+          "agent": "agent-result",
+          "interactive": false,
+          "routes": {
+            "success": "_exit"
+          }
+        }
+      }
+    }
+  },
+  "catalog": {
+    "id": "agent-loop",
+    "label": "Generic Agent Loop"
+  },
+  "capabilities": {
+    "schema_version": 1,
+    "workspace": {
+      "kind": "none"
+    }
+  }
+}

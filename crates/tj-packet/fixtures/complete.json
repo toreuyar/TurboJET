@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "title": "Booking cancellation for solo travellers",
+  "problem": {
+    "statement": "Solo travellers cannot cancel a booking online and must contact support, which delays refunds and creates avoidable support work.",
+    "source_refs": ["SRC-1", "SRC-2"]
+  },
+  "users": [
+    {
+      "id": "USR-1",
+      "user": "Solo traveller",
+      "need": "Cancel a booking without contacting support and understand the refund outcome immediately.",
+      "source_refs": ["SRC-1"]
+    }
+  ],
+  "goals": [
+    {
+      "id": "GOAL-1",
+      "statement": "A traveller can cancel an eligible booking in the web flow and see the refund amount before confirming.",
+      "source_refs": ["SRC-2"]
+    }
+  ],
+  "non_goals": [
+    {
+      "id": "NG-1",
+      "statement": "Changing the dates of a booking is out of scope for the first release.",
+      "source_refs": ["SRC-2"]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "title": "Online cancellation",
+      "statement": "The booking page offers a cancel action for bookings whose policy allows it.",
+      "kind": "functional",
+      "priority": "must",
+      "status": "confirmed",
+      "acceptance_criteria": [
+        "An eligible booking shows the cancel action and completes cancellation exactly once.",
+        "A non-cancellable booking explains why cancellation is unavailable."
+      ],
+      "source_refs": ["SRC-1", "SRC-2"]
+    },
+    {
+      "id": "REQ-2",
+      "title": "Refund preview",
+      "statement": "Before confirmation the traveller sees the refund amount and the time it will take.",
+      "kind": "functional",
+      "priority": "must",
+      "status": "confirmed",
+      "acceptance_criteria": [
+        "The preview shows the exact amount and currency of the expected refund.",
+        "The confirmed cancellation records the displayed amount with the booking."
+      ],
+      "source_refs": ["SRC-2"]
+    },
+    {
+      "id": "REQ-3",
+      "title": "Cancellation notification",
+      "statement": "A successful cancellation sends an email confirming the booking and refund state.",
+      "kind": "functional",
+      "priority": "should",
+      "status": "confirmed",
+      "acceptance_criteria": [
+        "The email is queued after the cancellation transaction commits.",
+        "A failed email does not roll back an accepted cancellation."
+      ],
+      "source_refs": ["SRC-2"]
+    }
+  ],
+  "nfrs": [
+    {
+      "id": "NFR-1",
+      "statement": "The cancellation action responds within two seconds at the 95th percentile.",
+      "category": "performance",
+      "acceptance_criteria": ["A load test at the documented baseline stays under two seconds p95."],
+      "source_refs": ["SRC-2"]
+    }
+  ],
+  "constraints": [
+    {
+      "id": "CON-1",
+      "statement": "The first release uses the existing booking database and payment provider.",
+      "source_refs": ["SRC-2"]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "EVD-1",
+      "claim": "Support handles cancellation requests manually today.",
+      "source_refs": ["SRC-1"]
+    },
+    {
+      "id": "EVD-2",
+      "claim": "Product requires a refund preview before the traveller confirms.",
+      "source_refs": ["SRC-2"]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "ASM-1",
+      "statement": "Eligibility rules are already stored with each booking.",
+      "owner": "booking-domain",
+      "source_refs": ["SRC-2"]
+    }
+  ],
+  "contradictions": [],
+  "risks": [
+    {
+      "id": "RISK-1",
+      "statement": "The payment provider may confirm a refund late, so the cancelled state can precede the refund state.",
+      "severity": "major",
+      "likelihood": "medium",
+      "mitigation": "Record a pending refund state and reconcile provider callbacks idempotently."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-1",
+      "question": "Should partial refunds be supported in the first release?",
+      "owner": "product-owner",
+      "status": "decided",
+      "decision": "No; only the policy-calculated full eligible amount is shown.",
+      "source_refs": ["SRC-2"]
+    }
+  ],
+  "unknowns": [],
+  "sources": [
+    {
+      "id": "SRC-1",
+      "kind": "stage_artifact",
+      "reference": "artifact:flow-a:stage-a",
+      "excerpt": "Support currently handles cancellation requests manually."
+    },
+    {
+      "id": "SRC-2",
+      "kind": "question_answer",
+      "reference": "answer:q_example",
+      "excerpt": "Show the refund amount before confirming and do not support partial refunds yet."
+    }
+  ]
+}

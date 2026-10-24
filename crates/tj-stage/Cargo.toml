@@ -1,0 +1,25 @@
+[package]
+name = "tj-stage"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+tj-chat = { path = "../tj-chat" }
+tj-config = { path = "../tj-config" }
+tj-db = { path = "../tj-db" }
+tj-provider = { path = "../tj-provider" }
+tj-runner = { path = "../tj-runner" }
+adk-core = { workspace = true }
+adk-model = { workspace = true, features = ["openai", "anthropic"] }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+shellexpand = "3"
+tokio = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }

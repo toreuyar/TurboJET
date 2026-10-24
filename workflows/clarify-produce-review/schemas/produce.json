@@ -1,0 +1,14 @@
+{
+  "description": "Produce stage. Verdict keys exactly match workflows/clarify-produce-review/workflow.smg.json.",
+  "type": "object",
+  "required": ["verdict", "summary", "deliverable"],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["produced"] },
+    "summary": { "type": "string" },
+    "deliverable": { "type": "string", "description": "The complete artifact a human reviews." },
+    "assumptions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } },
+    "revision_notes": { "type": "array", "items": { "type": "string" }, "description": "How gate rejection feedback changed this revision." },
+    "content": { "type": "string", "description": "Markdown deliverable mirrored into output.md." }
+  }
+}

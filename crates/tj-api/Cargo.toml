@@ -1,0 +1,76 @@
+[package]
+name = "tj-api"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[features]
+# Shipped-example/SDLC journeys. Excluded from the default engine suite; run
+# explicitly with `bash scripts/checks.sh examples`.
+example-workflows = []
+
+[[test]]
+name = "delivery_harness"
+path = "tests/delivery_harness.rs"
+required-features = ["example-workflows"]
+
+[[test]]
+name = "discovery_packet_harness"
+path = "tests/discovery_packet_harness.rs"
+required-features = ["example-workflows"]
+
+[[test]]
+name = "engineering_harness"
+path = "tests/engineering_harness.rs"
+required-features = ["example-workflows"]
+
+[[test]]
+name = "generic_workflows_harness"
+path = "tests/generic_workflows_harness.rs"
+required-features = ["example-workflows"]
+
+[[test]]
+name = "planning_harness"
+path = "tests/planning_harness.rs"
+required-features = ["example-workflows"]
+
+[dependencies]
+base64 = "0.22"
+tj-config = { path = "../tj-config" }
+tj-manager = { path = "../tj-manager" }
+tj-db = { path = "../tj-db" }
+tj-agent = { path = "../tj-agent" }
+tj-provider = { path = "../tj-provider" }
+tj-runner = { path = "../tj-runner" }
+tj-logs = { path = "../tj-logs" }
+tj-secrets = { path = "../tj-secrets" }
+tj-tools = { path = "../tj-tools" }
+tj-packet = { path = "../tj-packet" }
+tj-plan = { path = "../tj-plan" }
+tj-git = { path = "../tj-git" }
+tj-delivery = { path = "../tj-delivery" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+tokio = { workspace = true }
+axum = { version = "0.8", features = ["macros"] }
+tokio-stream = "0.1"
+async-stream = "0.3"
+futures = { workspace = true }
+tower-http = { version = "0.6", features = ["cors", "trace"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+tracing-appender = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+argon2 = "0.5"
+dirs = "6"
+dashmap = "6"
+ssh-key = { version = "0.6", features = ["ed25519", "rsa", "ecdsa", "getrandom"] }
+
+[dev-dependencies]
+tower = { version = "0.5", features = ["util"] }
+http-body-util = "0.1"
+tempfile = "3"
+tj-test-support = { path = "../tj-test-support" }

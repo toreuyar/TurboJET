@@ -1,0 +1,119 @@
+name: Deterministic checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  core-asset-free:
+    # The default engine/unit proof runs in a disposable copy with every
+    # shipped workflow, agent, schema, local and example asset removed.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.98.0'
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config perl rsync
+      - name: Fetch locked dependencies for the offline suite
+        env:
+          CARGO_HOME: ${{ runner.temp }}/cargo-home
+        run: cargo fetch --locked
+      - name: Asset-free Rust and web unit suites
+        env:
+          TJ_ASSET_FREE_CARGO_HOME: ${{ runner.temp }}/cargo-home
+        run: bash scripts/check-asset-free.sh
+      - name: Retain asset-free results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: asset-free-check-results
+          retention-days: 14
+          path: |
+            /tmp/opencode/asset-free-*.log
+            /tmp/opencode/package-smoke-*.log
+
+  browser-mocked:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.98.0'
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config perl
+      - name: Locked web checks and mocked browser
+        env:
+          TJ_INSTALL_BROWSER: '1'
+        run: bash scripts/checks.sh web
+      - name: Retain browser results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-check-results
+          retention-days: 14
+          path: |
+            check-results/
+            webui/playwright-report/
+            webui/test-results/
+
+  optional-examples:
+    # Shipped example contracts and, when the operator supplies it, the local
+    # SDLC regression. Never required by the default asset-free job.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.98.0'
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config perl
+      - name: Install locked web dependencies
+        run: cd webui && npm ci --no-audit --no-fund
+      - name: Optional example suites
+        run: bash scripts/check-examples.sh
+      - name: Retain example results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: optional-example-results
+          retention-days: 14
+          path: check-results/
+
+  legacy-compat:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.98.0'
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config perl
+      - name: Frozen v1 adapter compatibility
+        run: cargo test -p tj-manager --features legacy-compat-tests --locked --test legacy_v1_adapter

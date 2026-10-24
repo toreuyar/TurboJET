@@ -1,0 +1,50 @@
+name: Feature request
+description: Propose a scoped capability or workflow improvement
+title: "[feature] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        TurboJet is pre-release. Proposals should describe the problem and the smallest useful boundary, not a production-readiness claim. Do not include secrets or private data.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user or operator problem is not handled today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the observable outcome, including failure and human-authority behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Existing workflows, configuration, or a smaller change that might suffice.
+    validations:
+      required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Core engine or lifecycle
+        - API or UI
+        - Workflow authoring or examples
+        - Persistence or recovery
+        - Security boundary
+        - Documentation or developer experience
+        - Optional forge/delivery integration
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and evidence
+      description: What is explicitly out of scope? What testable evidence would show the change works without overstating maturity?
+    validations:
+      required: true

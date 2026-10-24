@@ -1,0 +1,13 @@
+{
+  "description": "Agent-loop result stage. Verdict keys exactly match workflows/agent-loop/workflow.smg.json.",
+  "type": "object",
+  "required": ["verdict", "summary", "answer"],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["success"] },
+    "summary": { "type": "string" },
+    "answer": { "type": "string", "description": "Final user-facing result, including explicit unanswered needs-input when applicable." },
+    "unknowns": { "type": "array", "items": { "type": "string" } },
+    "needs_input": { "type": "array", "items": { "type": "string" } },
+    "content": { "type": "string", "description": "Markdown final answer mirrored into output.md." }
+  }
+}

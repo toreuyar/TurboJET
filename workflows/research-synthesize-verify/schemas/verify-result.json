@@ -1,0 +1,22 @@
+{
+  "description": "Verify stage. Verdict keys exactly match workflows/research-synthesize-verify/workflow.smg.json.",
+  "type": "object",
+  "required": ["verdict", "summary", "issues"],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["verified", "revise", "missing-evidence"] },
+    "summary": { "type": "string" },
+    "issues": { "type": "array", "items": { "type": "string" } },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "excerpt"],
+        "properties": {
+          "path": { "type": "string", "description": "Relative path under inputs/." },
+          "excerpt": { "type": "string", "description": "Exact supporting text checked against the file." }
+        }
+      }
+    },
+    "content": { "type": "string", "description": "Markdown verification report mirrored into output.md." }
+  }
+}

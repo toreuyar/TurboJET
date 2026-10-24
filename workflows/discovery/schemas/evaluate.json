@@ -1,0 +1,29 @@
+{
+  "description": "Evaluate stage final artifact (verdict tool arguments). The verdict values are the SMG route keys exactly: the workflow graph routes evaluate with { proceed: _next-flow, reject: intake }. Clarifying questions happen in-execution via the question tool — no send-back-for-clarification route exists.",
+  "type": "object",
+  "required": ["verdict", "summary"],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["proceed", "reject"],
+      "description": "Routing decision: 'proceed' advances to the next flow, 'reject' re-runs intake. No other values exist."
+    },
+    "summary": {
+      "type": "string",
+      "description": "Brief overall assessment, shown in run summaries and the gate review screen."
+    },
+    "content": {
+      "type": "string",
+      "description": "Full evaluation report (markdown: risks, findings, strengths). Optional; the .turbojet/output.md contents fit here."
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Required in substance when verdict is 'proceed': why the requirements are clear and well-defined enough to advance."
+    },
+    "unresolved": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Required in substance when verdict is 'reject': the unresolved items that block proceeding, each with why it blocks."
+    }
+  }
+}

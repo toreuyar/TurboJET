@@ -1,0 +1,72 @@
+name: Bug report
+description: Report a reproducible defect in TurboJet
+title: "[bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Do not include API keys, bearer tokens, private keys, `.env` contents, customer data, private hostnames, or unredacted logs. Security vulnerabilities must follow SECURITY.md, not this form.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What is broken, and where?
+      placeholder: A concise description of the observed defect.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: Exact commands, API calls, workflow shape, or UI steps. Use disposable state and placeholders.
+      placeholder: |
+        1. Start from revision ...
+        2. Register workflow ...
+        3. Create project/run ...
+        4. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and errors
+      description: Include the relevant error state or status code. Redact secrets and private paths.
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: Revision
+      description: Commit/tag and, if relevant, workflow catalog/version.
+      placeholder: v1.0.0 / catalog agent-loop revision 3
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS/architecture, Rust and Node versions, and browser if relevant.
+      placeholder: Ubuntu 24.04 x86-64, Rust 1.98.0, Node 22.23.2
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant configuration shape
+      description: Redact secrets and private URLs. Do not paste a full `.env`.
+      render: json
+    validations:
+      required: false
+  - type: textarea
+    id: checks
+    attributes:
+      label: Checks already run
+      description: List exact commands and results. Say explicitly if a check was not run.
+    validations:
+      required: false

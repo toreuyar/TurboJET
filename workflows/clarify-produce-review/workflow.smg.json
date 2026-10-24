@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "name": "Clarify, Produce and Review",
+  "maturity": "experimental",
+  "description": "Repository-free Clarify -> Produce -> Human Review. Clarification can ask the user directly; a rejected review re-enters the flow so the produced artifact is revised before the next exact-output approval. No Git, forge, SSH or shell capability is part of this profile.",
+  "entry": "clarify-produce-review",
+  "exit": "review-gate",
+  "limits": {
+    "maxIterations": 3,
+    "maxSteps": 12,
+    "maxDepth": 4
+  },
+  "flow-order": [
+    "clarify-produce-review",
+    "review-gate"
+  ],
+  "flows": {
+    "clarify-produce-review": {
+      "type": "flow",
+      "entry": "clarify",
+      "exit": "produce",
+      "merge_strategy": "none",
+      "stages": {
+        "clarify": {
+          "agent": "clarify",
+          "interactive": true,
+          "routes": {
+            "success": "produce"
+          }
+        },
+        "produce": {
+          "agent": "produce",
+          "interactive": false,
+          "routes": {
+            "produced": "_next-flow"
+          }
+        }
+      }
+    },
+    "review-gate": {
+      "type": "gate",
+      "routes": {
+        "approved": "_next-flow",
+        "rejected": "_rework"
+      },
+      "stages": {}
+    }
+  },
+  "catalog": {
+    "id": "clarify-produce-review",
+    "label": "Clarify, Produce and Review"
+  },
+  "capabilities": {
+    "schema_version": 1,
+    "workspace": {
+      "kind": "none"
+    },
+    "gates": {
+      "review-gate": "artifact"
+    }
+  }
+}

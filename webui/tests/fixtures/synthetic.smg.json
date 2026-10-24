@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "name": "synthetic-workflow",
+  "maturity": "experimental",
+  "description": "Asset-free UI fixture",
+  "entry": "flow-a",
+  "exit": "flow-b",
+  "limits": { "maxIterations": 3, "maxSteps": 20, "maxDepth": 5 },
+  "flow-order": ["flow-a", "gate-a", "flow-b"],
+  "flows": {
+    "flow-a": {
+      "type": "flow",
+      "entry": "start",
+      "exit": "finish",
+      "stages": {
+        "start": {
+          "agent": "fixture.json",
+          "interactive": false,
+          "routes": { "success": "check" }
+        },
+        "check": {
+          "agent": "fixture.json",
+          "interactive": false,
+          "routes": {
+            "success": "finish",
+            "retry": "start",
+            "cannot-complete": "_escalate"
+          }
+        },
+        "finish": {
+          "agent": "fixture.json",
+          "interactive": false,
+          "routes": { "success": "_next-flow" }
+        }
+      }
+    },
+    "gate-a": {
+      "type": "gate",
+      "routes": { "approved": "_next-flow", "rejected": "_rework" },
+      "stages": {}
+    },
+    "flow-b": {
+      "type": "flow",
+      "entry": "finish",
+      "exit": "finish",
+      "stages": {
+        "finish": {
+          "agent": "fixture.json",
+          "interactive": false,
+          "routes": { "success": "_exit" }
+        }
+      }
+    }
+  }
+}

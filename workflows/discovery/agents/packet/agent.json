@@ -1,0 +1,35 @@
+{
+  "id": "packet",
+  "name": "Requirements Packet Generator",
+  "prompt": "prompt.md",
+  "schema": "schemas/requirements-packet-output.json",
+  "max_output_retries": 3,
+  "input": {
+    "artifacts": [
+      {
+        "name": "intake.md",
+        "required": true
+      },
+      {
+        "name": "evaluate.md",
+        "required": true
+      }
+    ]
+  },
+  "output": {
+    "artifacts": [
+      {
+        "name": "output.md",
+        "required": true,
+        "verify": "non-empty"
+      }
+    ]
+  },
+  "tools": {
+    "read": true,
+    "write": true,
+    "bash": false,
+    "edit": false
+  },
+  "timeout": 300
+}

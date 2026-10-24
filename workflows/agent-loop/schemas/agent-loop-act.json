@@ -1,0 +1,14 @@
+{
+  "description": "Agent-loop act stage. Verdict keys exactly match workflows/agent-loop/workflow.smg.json.",
+  "type": "object",
+  "required": ["verdict", "summary", "draft"],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["produced", "needs-input"] },
+    "summary": { "type": "string" },
+    "draft": { "type": "string", "description": "The produced artifact or answer." },
+    "feedback_applied": { "type": "array", "items": { "type": "string" }, "description": "Checker feedback addressed in this revision." },
+    "unknowns": { "type": "array", "items": { "type": "string" } },
+    "needs_input": { "type": "array", "items": { "type": "string" } },
+    "content": { "type": "string", "description": "Markdown deliverable mirrored into output.md." }
+  }
+}
